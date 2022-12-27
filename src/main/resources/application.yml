@@ -1,0 +1,20 @@
+server:
+  port: 9999
+
+spring:
+  profiles:
+    include: real
+
+  mvc:
+    throw-exception-if-no-handler-found: true # dispatcher servlet에서 요청에 대한 핸들러를 찾을 때 요청을 처리할 수 없는 핸들러가 없다면 즉, mappedHandler가 null이라면 NoHandlerFoundException예외를 던진다.
+
+  web:
+    resources:
+      add-mappings: false # add-mappings을 false로 설정하면 스프링에서 기본적으로 제공하는 정적자원요청에 대한 매핑을 사용하지 않기 때문에 잘못된 URL로 요청하더라도 SimpleUrlHandlerMapping가 해당 요청을 받지 않고 정상적으로 NoHandlerFoundException을 발생시킨다.
+
+
+
+
+
+
+
