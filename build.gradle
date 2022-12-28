@@ -45,6 +45,10 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+test.onlyIf{
+    !project.hasProperty('test')
+}
+
 // build시 xx-plain.jar 나오는거 막기(gradle 2.5부터 생김)
 jar{
     enabled = false
