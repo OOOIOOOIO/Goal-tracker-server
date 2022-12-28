@@ -17,11 +17,10 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
-    @Value("${jwt.refreshExpireMin}")
-    private Long refreshTokenMin;
+//    @Value("${jwt.refreshExpireMin}")
+//    private Long refreshTokenMin;
 
-
-
+    private final JwtInfoProperties jwtInfoProperties;
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
 
@@ -46,7 +45,7 @@ public class RefreshTokenService {
         RefreshToken refreshToken = new RefreshToken();
 
         refreshToken.setUser(userRepository.findById(userId).get());
-        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenMin));
+        refreshToken.setExpiryDate(Instant.now().plusMillis(jwtInfoProperties.getRefreshExpireMin()));
         refreshToken.setToken(UUID.randomUUID().toString());
 
         // db 저장

@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/api/daily")
 @RequiredArgsConstructor
-public class DailyContoller {
+public class DailyController {
 
     private final DailyService dailyService;
     private final JwtUtils jwtUtils;
