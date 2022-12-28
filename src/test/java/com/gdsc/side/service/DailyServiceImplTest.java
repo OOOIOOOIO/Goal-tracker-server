@@ -38,39 +38,39 @@ public class DailyServiceImplTest {
         //then
     }
 
-    @Test
-    public void getDailyMonthlyTest() throws Exception{
-        // When
-        List<DailyMainResponseDto> dailyMonthly = dailyService.getDailyMonthly("2020-10");
-
-
-        for(DailyMainResponseDto date : dailyMonthly){
-            System.out.println(date.getDailyId() +" "+ date.getTitle() +" "+date.getDailyStatus());
-        }
-    }
-
-    @Test
-    public void all() throws Exception{
-        //given
-        Map<String, List<?>> result = new HashMap<>();
-
-        List<String> dailyDatesMonthly = dailyService.getDailyDatesMonthly("2020-10");
-        /*
-        2020-10-10
-        2020-10-11
-        2020-10-12
-         */
-
-        for(String date : dailyDatesMonthly){
-            List<DailyMainResponseDto> dailyMonthly = dailyService.getDailyMonthly(date);
-
-            result.put("date", dailyMonthly);
-        }
-        //when 프린트해봥
-        for(String date : result.keySet()){
-            System.out.println(result.get(date));
-        }
-
-        //then
-    }
+//    @Test
+//    public void getDailyMonthlyTest() throws Exception{
+//        // When
+//        List<DailyMainResponseDto> dailyMonthly = dailyService.getDailyMonthly("2020-10");
+//
+//
+//        for(DailyMainResponseDto date : dailyMonthly){
+//            System.out.println(date.getDailyId() +" "+ date.getTitle() +" "+date.getDailyStatus());
+//        }
+//    }
+//
+//    @Test
+//    public void all() throws Exception{
+//        //given
+//        Map<String, List<?>> result = new HashMap<>();
+//
+//        List<String> dailyDatesMonthly = dailyService.getDailyDatesMonthly("2020-10");
+//        /*
+//        2020-10-10
+//        2020-10-11
+//        2020-10-12
+//         */
+//
+//        for(String date : dailyDatesMonthly){
+//            List<DailyMainResponseDto> dailyMonthly = dailyService.getDailyMonthly(date);
+//
+//            result.put("date", dailyMonthly);
+//        }
+//        //when 프린트해봥
+//        for(String date : result.keySet()){
+//            System.out.println(result.get(date));
+//        }
+//
+//        //then
+//    }
 }
