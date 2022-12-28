@@ -1,5 +1,6 @@
 package com.gdsc.side.api.service;
 
+import com.gdsc.side.api.config.jwt.JwtInfoProperties;
 import com.gdsc.side.api.domain.RefreshToken;
 import com.gdsc.side.api.exception.type.TokenRefreshException;
 import com.gdsc.side.api.repository.RefreshTokenRepository;
@@ -18,6 +19,8 @@ import java.util.UUID;
 public class RefreshTokenService {
     @Value("${jwt.refreshExpireMin}")
     private Long refreshTokenMin;
+
+
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
