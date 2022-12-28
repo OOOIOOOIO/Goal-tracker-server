@@ -10,11 +10,5 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:/application.yml")
 public class JwtInfoProperties {
 
-    @Value("${jwt.secret}")
-    private String secret;
-    @Value("${jwt.expireMin}")
-    private Long expireMin;
-    @Value("${jwt.refreshExpireMin}")
-    private Long refreshExpireMin;
 
 }

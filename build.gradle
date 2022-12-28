@@ -45,11 +45,12 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+// gradle build 시 test 때문에 fail나는거 막기
 test.onlyIf{
     !project.hasProperty('test')
 }
 
-// build시 xx-plain.jar 나오는거 막기(gradle 2.5부터 생김)
+// gradle build시 xx-plain.jar 나오는거 막기(gradle 2.5부터 생김)
 jar{
     enabled = false
 }
