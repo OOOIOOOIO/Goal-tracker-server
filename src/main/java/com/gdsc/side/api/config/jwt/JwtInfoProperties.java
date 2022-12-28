@@ -1,14 +1,19 @@
 package com.gdsc.side.api.config.jwt;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 
-@Configuration
-@PropertySource("classpath:/application.yml")
+@Component
+@ConfigurationProperties(prefix = "jwt")
+@Getter
+@Setter
 public class JwtInfoProperties {
+    private String secret;
+    private Long expireMin;
+    private Long refreshExpireMin;
 
 
 }

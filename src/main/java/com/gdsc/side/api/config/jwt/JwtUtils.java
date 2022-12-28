@@ -18,11 +18,12 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtUtils {
 
-    @Value("${jwt.secret}")
-    private String secret;
-    @Value("${jwt.expireMin}")
-    private Long expireMin;
+//    @Value("${jwt.secret}")
+//    private String secret;
+//    @Value("${jwt.expireMin}")
+//    private Long expireMin;
 
+    private final JwtInfoProperties jwtInfoProperties;
 
     /**
      * header에서 jwt-access 가져오기
@@ -49,7 +50,7 @@ public class JwtUtils {
      */
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(secret.getBytes()) // signature를 secrete key로 설정했는지, publickey로 설정했는지 확인! 나는 secret key로 설정
+                .setSigningKey(jwtInfoProperties.getSecret().getBytes()) // signature를 secrete key로 설정했는지, publickey로 설정했는지 확인! 나는 secret key로 설정
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -62,7 +63,7 @@ public class JwtUtils {
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(secret.getBytes()) // signature를 secrete key로 설정했는지, publickey로 설정했는지 확인! 나는 secret key로 설정
+                    .setSigningKey(jwtInfoProperties.getSecret().getBytes()) // signature를 secrete key로 설정했는지, publickey로 설정했는지 확인! 나는 secret key로 설정
                     .build()
                     .parseClaimsJws(authToken);  // 여기서 Runtime Exception이 던져진다.
 
@@ -87,14 +88,14 @@ public class JwtUtils {
      * subject :username
      */
     public String generateTokenFromUsername(String username) {
-        Key key = Keys.hmacShaKeyFor(secret.getBytes());
+        Key key = Keys.hmacShaKeyFor(jwtInfoProperties.getSecret().getBytes());
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + expireMin))
+                .setExpiration(new Date((new Date()).getTime() + jwtInfoProperties.getExpireMin()))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
