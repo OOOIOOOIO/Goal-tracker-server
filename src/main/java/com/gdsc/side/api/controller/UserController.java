@@ -1,6 +1,7 @@
 package com.gdsc.side.api.controller;
 
 import com.gdsc.side.api.config.jwt.JwtUtils;
+import com.gdsc.side.api.controller.dto.response.calender.CalenderResponseDto;
 import com.gdsc.side.api.controller.dto.response.goal.GoalCompleteListResponseDto;
 import com.gdsc.side.api.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,17 @@ public class UserController {
      * @return
      */
     @GetMapping("/calender/{month}")
-    public ResponseEntity<String> dailyAchievements(@PathVariable(name = "month") String month) {
+    public ResponseEntity<CalenderResponseDto> dailyAchievements(HttpServletRequest request, @PathVariable(name = "month") String month) {
+        //헤더에서 jwt-auth-token 조회
+        String accessToken = request.getHeader("jwt-auth-token");
+
+        // jwt에서 username 가져오기
+        String username = jwtUtils.getUserNameFromJwtToken(accessToken);
 
         // 조회
+        CalenderResponseDto calenderResponseDto = userService.completeDaily(username, month);
 
-        return null;
+        return new ResponseEntity<>(calenderResponseDto, HttpStatus.OK);
     }
 
     /**

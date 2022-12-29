@@ -3,7 +3,8 @@ package com.gdsc.side.api.service;
 import com.gdsc.side.api.controller.dto.request.goal.GoalRequestDto;
 import com.gdsc.side.api.controller.dto.request.goal.GoalStatusChangeDto;
 import com.gdsc.side.api.controller.dto.response.goal.GoalResponseDto;
-import com.gdsc.side.api.controller.dto.response.main.GoalMainResponseDto;
+import com.gdsc.side.api.controller.dto.response.main.GoalMainResponseInterface;
+import com.gdsc.side.api.domain.Goal;
 
 import java.util.List;
 
@@ -34,10 +35,11 @@ public interface GoalService {
      */
     void updateGoalStatus(Long goalId, GoalStatusChangeDto goalStatusChangeDto);
 
+
     /**
      * 1달치 장기 목표 조회
      */
-    List<GoalMainResponseDto> getGoalMonthly(String date);
+    List<GoalMainResponseInterface> getGoalByMonth(String month, String name);
 
 
 }

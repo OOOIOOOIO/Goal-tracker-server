@@ -4,7 +4,7 @@ import com.gdsc.side.api.controller.dto.request.daily.DailyDatesRequestDto;
 import com.gdsc.side.api.controller.dto.request.daily.DailyDatesStatusChangeDto;
 import com.gdsc.side.api.controller.dto.request.daily.DailyRequestDto;
 import com.gdsc.side.api.controller.dto.response.daily.DailyResponseDto;
-import com.gdsc.side.api.controller.dto.response.main.DailyMainResponseDto;
+import com.gdsc.side.api.controller.dto.response.main.DailyMainResponseInterface;
 import com.gdsc.side.api.domain.Daily;
 import com.gdsc.side.api.domain.DailyDates;
 import com.gdsc.side.api.domain.User;
@@ -121,17 +121,22 @@ public class DailyServiceImpl implements DailyService{
     }
 
     @Override
-    public List<String> getDailyDatesMonthly(String month) {
+    public List<String> getDatesByMonth(String month, String username) {
+        // user 조회
+        Optional<User> user = userRepository.findByUsername(username);
+
         // like 절은 이런식으로 해줘야됨
-        return dailyDatesRepository.findDatesByMonth("%"+month+"%");
+        return dailyDatesRepository.findDatesByMonth("%"+month+"%", user.get().getUserId());
 
     }
 
     @Override
-    public List<DailyMainResponseDto> getDailyMonthly(String date) {
+    public List<DailyMainResponseInterface> getDailyByDate(String date, String username) {
+        // user 조회
+        Optional<User> user = userRepository.findByUsername(username);
 
 
-//        return dailyRepository.findDailyByDate(date);
-        return null;
+        return dailyRepository.findDailyByDate("%"+date+"%", user.get().getUserId());
+
     }
 }
