@@ -3,7 +3,7 @@ package com.gdsc.side.api.service;
 import com.gdsc.side.api.controller.dto.request.goal.GoalRequestDto;
 import com.gdsc.side.api.controller.dto.request.goal.GoalStatusChangeDto;
 import com.gdsc.side.api.controller.dto.response.goal.GoalResponseDto;
-import com.gdsc.side.api.controller.dto.response.main.GoalMainResponseDto;
+import com.gdsc.side.api.controller.dto.response.main.GoalMainResponseInterface;
 import com.gdsc.side.api.domain.Goal;
 import com.gdsc.side.api.domain.User;
 import com.gdsc.side.api.exception.type.GoalNotFoundException;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -74,7 +75,10 @@ public class GoalServiceImpl implements GoalService{
     }
 
     @Override
-    public List<GoalMainResponseDto> getGoalMonthly(String date) {
-        return null;
+    public List<GoalMainResponseInterface> getGoalByMonth(String month, String username) {
+        // user 조회
+        Optional<User> user = userRepository.findByUsername(username);
+
+        return goalRepository.findGoalByMonth("%" + month + "%", "%" + month + "%", user.get().getUserId());
     }
 }
