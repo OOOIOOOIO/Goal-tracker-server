@@ -34,7 +34,7 @@ public class UserController {
         // jwt에서 username 가져오기
         String username = jwtUtils.getUserNameFromJwtToken(accessToken);
 
-        // 조회
+        // 완성 daily 조회
         CalenderResponseDto calenderResponseDto = userService.completeDaily(username, month);
 
         return new ResponseEntity<>(calenderResponseDto, HttpStatus.OK);
