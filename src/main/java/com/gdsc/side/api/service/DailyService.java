@@ -4,7 +4,8 @@ import com.gdsc.side.api.controller.dto.request.daily.DailyDatesRequestDto;
 import com.gdsc.side.api.controller.dto.request.daily.DailyDatesStatusChangeDto;
 import com.gdsc.side.api.controller.dto.request.daily.DailyRequestDto;
 import com.gdsc.side.api.controller.dto.response.daily.DailyResponseDto;
-import com.gdsc.side.api.controller.dto.response.main.DailyMainResponseInterface;
+import com.gdsc.side.api.controller.dto.response.main.DailyCalenderResponseInterface;
+import com.gdsc.side.api.domain.Daily;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,13 +42,5 @@ public interface DailyService {
      */
     void updateDailyDates(Long dailyId, LocalDate date, DailyDatesStatusChangeDto dailyDatesStatusChangeDto);
 
-    /**
-     * 1달치 단기 목표 날짜 조회
-     */
-    List<String> getDatesByMonth(String month, String username);
 
-    /**
-     * 1달치 단기 목표 조회
-     */
-    List<DailyMainResponseInterface> getDailyByDate(String date, String username);
 }

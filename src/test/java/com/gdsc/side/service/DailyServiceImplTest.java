@@ -1,21 +1,7 @@
 package com.gdsc.side.service;
 
-import com.gdsc.side.api.controller.dto.response.main.DailyMainResponseInterface;
-import com.gdsc.side.api.controller.dto.response.main.GoalMainResponseInterface;
-import com.gdsc.side.api.domain.Goal;
-import com.gdsc.side.api.service.DailyService;
-import com.gdsc.side.api.service.GoalService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Transactional
 @SpringBootTest

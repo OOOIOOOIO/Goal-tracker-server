@@ -22,7 +22,7 @@ public interface DailyDatesRepository extends JpaRepository<DailyDates, Long> {
 
 
     /**
-     * 1달치 dailyDates 조회
+     * 1달치 dailyDates의 날짜 조회
      * JPQL은 where 절에 String만 될까..
      * LocalDateTime은 왜 안될까...ㅠ
      */

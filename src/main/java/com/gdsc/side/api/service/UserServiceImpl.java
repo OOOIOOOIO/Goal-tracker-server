@@ -3,7 +3,7 @@ package com.gdsc.side.api.service;
 import com.gdsc.side.api.controller.dto.response.calender.CalenderResponseDto;
 import com.gdsc.side.api.controller.dto.response.goal.GoalCompleteListResponseDto;
 import com.gdsc.side.api.controller.dto.response.goal.GoalResponseDtoForCompleteListDto;
-import com.gdsc.side.api.controller.dto.response.main.DailyMainResponseInterface;
+import com.gdsc.side.api.controller.dto.response.main.DailyCalenderResponseInterface;
 import com.gdsc.side.api.domain.Goal;
 import com.gdsc.side.api.domain.GoalStatus;
 import com.gdsc.side.api.domain.User;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
 
         //daily
         for(String date : dates){
-            List<DailyMainResponseInterface> dailyByDate =dailyRepository.findDailyByDate("%"+date+"%", user.get().getUserId());
+            List<DailyCalenderResponseInterface> dailyByDate =dailyRepository.findDailyByCompleteDate("%"+date+"%", user.get().getUserId()); // 에러나면 여기서 status
 
             dailyResult.put(date, dailyByDate);
         }

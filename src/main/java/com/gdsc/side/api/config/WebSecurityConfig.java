@@ -86,7 +86,6 @@ public class WebSecurityConfig {  // extends WebSecurityConfigurerAdapte, Spring
                 .authorizeRequests()
 //                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile",).permitAll() //정적리소스 물어보기
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

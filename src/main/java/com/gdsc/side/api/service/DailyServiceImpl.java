@@ -4,7 +4,7 @@ import com.gdsc.side.api.controller.dto.request.daily.DailyDatesRequestDto;
 import com.gdsc.side.api.controller.dto.request.daily.DailyDatesStatusChangeDto;
 import com.gdsc.side.api.controller.dto.request.daily.DailyRequestDto;
 import com.gdsc.side.api.controller.dto.response.daily.DailyResponseDto;
-import com.gdsc.side.api.controller.dto.response.main.DailyMainResponseInterface;
+import com.gdsc.side.api.controller.dto.response.main.DailyCalenderResponseInterface;
 import com.gdsc.side.api.domain.Daily;
 import com.gdsc.side.api.domain.DailyDates;
 import com.gdsc.side.api.domain.User;
@@ -48,8 +48,7 @@ public class DailyServiceImpl implements DailyService{
     @Override
     public void saveDaily(DailyRequestDto dailyRequestDto, String username) {
         // user 조회
-
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("user is not exist"));
+        User user = findUser(username);
 
         // daily 생성
         Daily daily = Daily.createDaily(dailyRequestDto, user);
@@ -120,23 +119,10 @@ public class DailyServiceImpl implements DailyService{
 
     }
 
-    @Override
-    public List<String> getDatesByMonth(String month, String username) {
-        // user 조회
-        Optional<User> user = userRepository.findByUsername(username);
 
-        // like 절은 이런식으로 해줘야됨
-        return dailyDatesRepository.findDatesByMonth("%"+month+"%", user.get().getUserId());
-
+    private User findUser(String username){
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("user is not exist"));
     }
 
-    @Override
-    public List<DailyMainResponseInterface> getDailyByDate(String date, String username) {
-        // user 조회
-        Optional<User> user = userRepository.findByUsername(username);
 
-
-        return dailyRepository.findDailyByDate("%"+date+"%", user.get().getUserId());
-
-    }
 }
