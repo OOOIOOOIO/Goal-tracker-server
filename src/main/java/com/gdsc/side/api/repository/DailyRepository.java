@@ -6,6 +6,7 @@ import com.gdsc.side.api.domain.Daily;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
      * 1달치 daily 가져오기(Main)
      */
     @Query(value = "select d.daily_id, d.title, dd.daily_status from daily_dates dd join daily d where d.user_id = :user_id order by dd.dates", nativeQuery = true)
-    List<DailyMainResponseInterface> findDailiesByDailyId(Long dailyId);
+    List<DailyMainResponseInterface> findDailiesByDailyId(@Param("user_id") Long user_id);
 
     /***
      * 1달치 성공한 daily 데이터 가져오기(Calender)
