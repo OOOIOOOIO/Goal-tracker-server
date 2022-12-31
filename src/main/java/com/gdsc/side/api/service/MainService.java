@@ -5,6 +5,7 @@ import com.gdsc.side.api.controller.dto.response.main.GoalMainResponseInterface;
 import com.gdsc.side.api.controller.dto.response.main.MainResponseDto;
 import com.gdsc.side.api.domain.Daily;
 import com.gdsc.side.api.domain.User;
+import com.gdsc.side.api.exception.type.UserNotFoundException;
 import com.gdsc.side.api.repository.DailyDatesRepository;
 import com.gdsc.side.api.repository.DailyRepository;
 import com.gdsc.side.api.repository.GoalRepository;
@@ -35,18 +36,19 @@ public class MainService {
      */
     public MainResponseDto getDailyAndGoalByMonthly(String month, String username){
         // user 조회
-        Optional<User> user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("user is not exist"));
+
 
         HashMap<String, List<?>> dailyResult = new HashMap<>();
         HashMap<String, List<?>> goalResult = new HashMap<>();
 
         //daily
-        List<DailyMainResponseInterface> dailies = dailyRepository.findDailiesByDailyId(user.get().getUserId());
+        List<DailyMainResponseInterface> dailies = dailyRepository.findDailiesByDailyId(user.getUserId());
 
         dailyResult.put("daily", dailies);
 
         //goal
-        List<GoalMainResponseInterface> goalByMonth = goalRepository.findGoalByMonth("%"+month+"%", "%"+month+"%", user.get().getUserId());
+        List<GoalMainResponseInterface> goalByMonth = goalRepository.findGoalByMonth("%"+month+"%", "%"+month+"%", user.getUserId());
 
         for (GoalMainResponseInterface goal : goalByMonth) {
 
