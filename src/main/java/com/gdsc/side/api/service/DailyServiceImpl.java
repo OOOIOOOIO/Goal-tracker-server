@@ -4,7 +4,6 @@ import com.gdsc.side.api.controller.dto.request.daily.DailyDatesRequestDto;
 import com.gdsc.side.api.controller.dto.request.daily.DailyDatesStatusChangeDto;
 import com.gdsc.side.api.controller.dto.request.daily.DailyRequestDto;
 import com.gdsc.side.api.controller.dto.response.daily.DailyResponseDto;
-import com.gdsc.side.api.controller.dto.response.main.DailyCalenderResponseInterface;
 import com.gdsc.side.api.domain.Daily;
 import com.gdsc.side.api.domain.DailyDates;
 import com.gdsc.side.api.domain.User;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -37,12 +35,12 @@ public class DailyServiceImpl implements DailyService{
     public DailyResponseDto getDailyInfo(Long dailyId, LocalDate date) {
 
         // dailyDates의 dailyStatus 조회
-        DailyDates dailyStatus = dailyDatesRepository.findDailyStatusByDaily_DailyIdAndDate(dailyId, date).orElseThrow(() -> new DailyDatesNotFoundException("dailyDates is not exist"));
+        DailyDates dailyDates = dailyDatesRepository.findDailyStatusByDaily_DailyIdAndDate(dailyId, date).orElseThrow(() -> new DailyDatesNotFoundException("dailyDates is not exist"));
 
         // daily 조회
         Daily daily = dailyRepository.findByDailyId(dailyId).orElseThrow(() -> new DailyNotFoundException("daily is not exist"));
 
-        return new DailyResponseDto(daily, String.valueOf(dailyStatus.getDailyStatus()));
+        return new DailyResponseDto(daily, String.valueOf(dailyDates.getDailyStatus()));
     }
 
     @Override
@@ -94,7 +92,7 @@ public class DailyServiceImpl implements DailyService{
      * 만약 있을 경우 그대로 update
      */
     @Override
-    public void updateDailyDates(Long dailyId, LocalDate date, DailyDatesStatusChangeDto dailyDatesStatusChangeDto) {
+    public void checkAndUpdateDailyDates(Long dailyId, LocalDate date, DailyDatesStatusChangeDto dailyDatesStatusChangeDto) {
         
         // dailyDates 조회
         Optional<DailyDates> dailyDates = dailyDatesRepository.findDailyStatusByDaily_DailyIdAndDate(dailyId, date);

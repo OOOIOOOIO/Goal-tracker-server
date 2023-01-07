@@ -124,7 +124,7 @@ public class DailyController {
         // 팝업 창 뜨기 전에 ON으로 할 경우
         // dailyId, date으로 status를 확인 해 없을 경우 save
         // 만약 있을 경우 그대로 update
-        dailyService.updateDailyDates(dailyId, LocalDate.parse(date), dailyDatesStatusChangeDto);
+        dailyService.checkAndUpdateDailyDates(dailyId, LocalDate.parse(date), dailyDatesStatusChangeDto);
 
         return new ResponseEntity<>("success", HttpStatus.OK);
     }

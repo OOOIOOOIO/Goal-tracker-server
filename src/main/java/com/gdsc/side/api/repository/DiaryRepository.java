@@ -8,7 +8,12 @@ import java.util.Optional;
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     /**
-     * diary 단건 조회
+     * GET, diary 단건 조회
+     */
+    Optional<Diary> findByGoal_GoalId(Long goalId);
+
+    /**
+     * PUT, diary 수정
      */
     Optional<Diary> findByDiaryId(Long diaryId);
 

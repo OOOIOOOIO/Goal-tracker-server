@@ -40,7 +40,6 @@ public interface DailyService {
     /**
      * 단기 목표 날짜 상태 수정
      */
-    void updateDailyDates(Long dailyId, LocalDate date, DailyDatesStatusChangeDto dailyDatesStatusChangeDto);
-
+    void checkAndUpdateDailyDates(Long dailyId, LocalDate date, DailyDatesStatusChangeDto dailyDatesStatusChangeDto);
 
 }

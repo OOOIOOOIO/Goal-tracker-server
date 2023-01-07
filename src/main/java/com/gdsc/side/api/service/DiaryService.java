@@ -8,7 +8,7 @@ public interface DiaryService {
     /**
      * 일기 조회
      */
-    DiaryResponseDto getDiaryInfo(Long diaryId);
+    DiaryResponseDto getDiaryInfo(Long goal_id);
 
     /**
      * 일기 저장

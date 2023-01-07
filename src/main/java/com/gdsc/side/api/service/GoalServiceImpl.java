@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +80,6 @@ public class GoalServiceImpl implements GoalService{
         // user 조회
         Optional<User> user = userRepository.findByUsername(username);
 
-        return goalRepository.findGoalByMonth("%" + month + "%", "%" + month + "%", user.get().getUserId());
+        return goalRepository.findGoalByDate(LocalDate.now(), user.get().getUserId());
     }
 }

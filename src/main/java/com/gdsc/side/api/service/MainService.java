@@ -4,7 +4,9 @@ import com.gdsc.side.api.controller.dto.response.main.DailyMainResponseInterface
 import com.gdsc.side.api.controller.dto.response.main.GoalMainResponseInterface;
 import com.gdsc.side.api.controller.dto.response.main.MainResponseDto;
 import com.gdsc.side.api.domain.Daily;
+import com.gdsc.side.api.domain.DailyDates;
 import com.gdsc.side.api.domain.User;
+import com.gdsc.side.api.exception.type.DailyNotFoundException;
 import com.gdsc.side.api.exception.type.UserNotFoundException;
 import com.gdsc.side.api.repository.DailyDatesRepository;
 import com.gdsc.side.api.repository.DailyRepository;
@@ -31,44 +33,61 @@ public class MainService {
     private final DailyDatesRepository dailyDatesRepository;
     private final UserRepository userRepository;
 
+
+
+    public void checkAndSaveDailyDates(Long dailyId, LocalDate date) {
+
+
+
+    }
+
+
     /**
      * daily & goal 조회
+     * Main > Main 접속 시 daily에 해당하는 dailyDates가 있는지 확인 후
+     * 없다면 save
+     * 있다면 pass
      */
-    public MainResponseDto getDailyAndGoalByMonthly(String month, String username){
+    public MainResponseDto getDailyAndGoalByDate(LocalDate today, String username){
         // user 조회
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("user is not exist"));
-
 
         HashMap<String, List<?>> dailyResult = new HashMap<>();
         HashMap<String, List<?>> goalResult = new HashMap<>();
 
-        //daily
-        List<DailyMainResponseInterface> dailies = dailyRepository.findDailiesByDailyId(user.getUserId());
+        //daily 추출
+        for (Daily daily : dailyRepository.findAllByUser_UserId(user.getUserId())) {
+            // dailyDates 조회
+            Optional<DailyDates> dailyDates = dailyDatesRepository.findDailyStatusByDaily_DailyIdAndDate(daily.getDailyId(), today);
 
-        dailyResult.put("daily", dailies);
+            // daiily에 해당하는 dates가 없을 경우(비어있을 경우) : 첫 등록
+            if(dailyDates.isEmpty()){
 
-        //goal
-        List<GoalMainResponseInterface> goalByMonth = goalRepository.findGoalByMonth("%"+month+"%", "%"+month+"%", user.getUserId());
+                // dailyDates 생성
+                DailyDates findDailyDates = DailyDates.createDailyDates("OFF", daily, today);
 
-        for (GoalMainResponseInterface goal : goalByMonth) {
-
-            List<LocalDate> datesBetweenTwoDates = getDatesBetweenTwoDates(goal.getCreated_at().toLocalDate(), goal.getEnd_date());
-
-            // a ~ b 까지 날짜 추출
-            for (LocalDate date : datesBetweenTwoDates) {
-                // month에 해당하는 애들만
-                if(date.toString().contains(month)){
-                    // 처음일 때
-                    if(goalResult.get(date.toString()) == null){
-                        goalResult.put(date.toString(), goalByMonth);
-                    }
-
-                }
+                // 저장
+                dailyDatesRepository.save(findDailyDates);
             }
         }
 
+        List<DailyMainResponseInterface> dailies = dailyRepository.findDailiesByDailyDates(today, user.getUserId());
+
+        // daily 저장
+        dailyResult.put("daily", dailies);
+
+        //goal 추출
+        List<GoalMainResponseInterface> goalByMonth = goalRepository.findGoalByDate(LocalDate.now(), user.getUserId());
+
+        // goal 저장
+        goalResult.put("goal", goalByMonth);
+
         return new MainResponseDto(dailyResult, goalResult);
     }
+
+    /**
+     * goal 날짜 추출
+     */
     private List<LocalDate> getDatesBetweenTwoDates(LocalDate startDate, LocalDate endDate) {
 
         return startDate.datesUntil(endDate)

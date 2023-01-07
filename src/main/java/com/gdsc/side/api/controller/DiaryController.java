@@ -19,14 +19,14 @@ public class DiaryController {
 
     /**
      * 일기 조회
-     * @param diaryId
+     * @param goalId
      * @return
      */
-    @GetMapping("/{diaryId}")
-    public ResponseEntity<DiaryResponseDto> getDiary(@PathVariable(name = "diaryId") Long diaryId) {
+    @GetMapping("/{goalId}")
+    public ResponseEntity<DiaryResponseDto> getDiary(@PathVariable(name = "goalId") Long goalId) {
 
         // 조회
-        DiaryResponseDto diaryInfo = diaryService.getDiaryInfo(diaryId);
+        DiaryResponseDto diaryInfo = diaryService.getDiaryInfo(goalId);
 
         return new ResponseEntity<>(diaryInfo, HttpStatus.OK);
     }
