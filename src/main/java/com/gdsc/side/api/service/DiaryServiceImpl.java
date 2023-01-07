@@ -23,9 +23,9 @@ public class DiaryServiceImpl implements DiaryService{
     private final GoalRepository goalRepository;
 
     @Override
-    public DiaryResponseDto getDiaryInfo(Long diaryId) {
+    public DiaryResponseDto getDiaryInfo(Long goalId) {
         // diary 조회
-        Diary diary = diaryRepository.findByDiaryId(diaryId).orElseThrow(() -> new DiaryNotFoundException("diary is not exist"));
+        Diary diary = diaryRepository.findByGoal_GoalId(goalId).orElseThrow(() -> new DiaryNotFoundException("diary is not exist"));
 
         return new DiaryResponseDto(diary);
     }

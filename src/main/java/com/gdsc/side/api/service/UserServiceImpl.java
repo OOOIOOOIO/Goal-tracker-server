@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
 
         //daily
         for(String date : dates){
-            List<DailyCalenderResponseInterface> dailyByDate =dailyRepository.findDailyByCompleteDate("%"+date+"%", user.get().getUserId()); // 에러나면 여기서 status
+            List<DailyCalenderResponseInterface> dailyByDate =dailyRepository.findDailyByCompleteDate("%"+date+"%", user.get().getUserId(), "ON"); // 에러나면 여기서 status
 
             dailyResult.put(date, dailyByDate);
         }

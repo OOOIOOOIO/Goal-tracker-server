@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
      */
     List<Goal> findByUser_UserIdAndGoalStatus(Long userId, GoalStatus goalStatus);
 
-    @Query(value = "select g.goal_id, g.title, g.goal_status, g.created_at, g.end_date from goal g where g.created_at like :month1 or g.end_date like :month2 and g.user_id = :user_id", nativeQuery = true)
-    List<GoalMainResponseInterface> findGoalByMonth(@Param("month1") String month1, @Param("month2") String month2, @Param("user_id") Long user_id);
+    @Query(value = "select g.goal_id, g.title, g.goal_status, g.created_at, g.end_date from goal g where g.end_date >= :today and g.user_id = :user_id", nativeQuery = true)
+    List<GoalMainResponseInterface> findGoalByDate(@Param("today")LocalDate today, @Param("user_id") Long user_id);
 
 }

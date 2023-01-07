@@ -6,5 +6,6 @@ package com.gdsc.side.api.controller.dto.response.main;
 public interface DailyMainResponseInterface {
     Long getDaily_id();
     String getTitle();
+    String getAlert_dates();
     String getDaily_status();
 }
