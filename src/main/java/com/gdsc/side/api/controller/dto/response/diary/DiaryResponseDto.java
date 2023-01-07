@@ -12,10 +12,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DiaryResponseDto {
 
+    private Long diaryId;
     private String content;
 
-    @JsonCreator
     public DiaryResponseDto(Diary diary) {
+        this.diaryId = diary.getDiaryId();
         this.content = diary.getContent();
     }
 }
