@@ -8,4 +8,5 @@ public interface DailyMainResponseInterface {
     String getTitle();
     String getAlert_dates();
     String getDaily_status();
+    String getAlert_time();
 }
