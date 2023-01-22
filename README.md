@@ -5,7 +5,7 @@
 - 권하준(Mentor)
    - Frontend
 - 김성호(Mentor)
-   - Backend(기여도 100%)
+   - Backend
 - 강재영(Fontend, Mentee)
 - 김채린(Backend, Mentee)
 
