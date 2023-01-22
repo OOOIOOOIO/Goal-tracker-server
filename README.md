@@ -8,3 +8,26 @@
    - Backend(기여도 100%)
 - 강재영(Fontend, Mentee)
 - 김채린(Backend, Mentee)
+
+<hr>
+
+## Skills
+
+### Frontend
+
+### Backend
+
+
+<hr>
+
+## UI
+
+## Time Table
+
+## Flow Chart
+
+## ERD
+
+## 핵심 기능
+
+## 느낀점
