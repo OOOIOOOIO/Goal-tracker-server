@@ -14,7 +14,7 @@ public interface DailyDatesRepository extends JpaRepository<DailyDates, Long> {
     /**
      * dailyDates 단건 조회
      * fk로 조회하는 법
-     * findBy + 외래키 주인 entity + _ + fk entity 식별자 필드명
+     * findBy + 외래키 주인 entity + _ + 외래키 주인의 식별자 필드명
      * dailyDates의 status 조회
      */
 //    @Query("select dd from DailyDates dd where dd.daily.dailyId = :dailyId and dd.date = :date")
