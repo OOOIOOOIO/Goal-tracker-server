@@ -15,7 +15,8 @@ public enum CustomErrorCode {
     DiaryNotFoundException("U007", "일기가 존재하지 않습니다."),
     NoHandlerFoundException("U008", "잘못된 uri 요청입니다."),
     METHOD_NOT_ALLOWED("U009", "잘못된 메서드 요청입니다."),
-    INTERNAL_SERVER_ERROR("U010", "서버 에러! 다시 시도해주세요");
+    INTERNAL_SERVER_ERROR("U010", "서버 에러! 다시 시도해주세요"),
+    DuplicateUsernameException("U011", "해당 username이 이미 존재합니다.");
 
 
 

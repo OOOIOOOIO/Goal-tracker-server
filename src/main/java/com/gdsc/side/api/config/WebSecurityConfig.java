@@ -51,7 +51,7 @@ public class WebSecurityConfig {  // extends WebSecurityConfigurerAdapte, Spring
 
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
-    private final AuthTokenFilter authenticationJwtTokenFilter;
+    private final AuthTokenFilter authTokenFilter;
     private final JwtExceptionHandlerFilter JwtExceptionHandlerFilter;
 
 
@@ -90,8 +90,8 @@ public class WebSecurityConfig {  // extends WebSecurityConfigurerAdapte, Spring
 
         http.authenticationProvider(authenticationProvider());
 
-        http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(JwtExceptionHandlerFilter, authenticationJwtTokenFilter.getClass()); // jwt 예외처리 필터
+        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(JwtExceptionHandlerFilter, authTokenFilter.getClass()); // jwt 예외처리 필터
 
         return http.build();
 

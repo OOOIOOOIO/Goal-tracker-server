@@ -11,8 +11,10 @@ import com.gdsc.side.api.domain.RefreshToken;
 import com.gdsc.side.api.domain.Role;
 import com.gdsc.side.api.domain.User;
 import com.gdsc.side.api.exception.type.TokenRefreshException;
+import com.gdsc.side.api.exception.type.UserNotFoundException;
 import com.gdsc.side.api.repository.RoleRepository;
 import com.gdsc.side.api.repository.UserRepository;
+import com.gdsc.side.api.service.AuthServiceImpl;
 import com.gdsc.side.api.service.RefreshTokenService;
 import com.gdsc.side.api.service.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +42,7 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final AuthServiceImpl authService;
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
@@ -52,6 +53,11 @@ public class AuthController {
      */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+
+        // 유저 검사
+        if(!authService.isUserExist(loginRequestDto.getUsername(), loginRequestDto.getPassword())){
+            throw new UserNotFoundException("유저가 존재하지 않습니다.");
+        }
 
         // 인증
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword()));
@@ -113,55 +119,9 @@ public class AuthController {
      * UserRepository를 사용하여 사용자를 데이터베이스에 저장
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
+    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
 
-        // 유효성 검사
-        if (userRepository.existsByUsername(signUpRequestDto.getUsername())) {
-            return ResponseEntity.badRequest().body(new MessageResponseDto("ERROR : USERNAME IS ALREADY TAKEN")); // 400 error
-        }
-//        if (userRepository.existsByEmail(signUpRequestDto.getEmail())) {
-//            return ResponseEntity.badRequest().body(new MessageResponseDto("Error: Email is already in use!"));
-//        }
-
-        // 유저 생성
-        User user = new User(signUpRequestDto.getUsername(),
-//                signUpRequestDto.getEmail(),
-                encoder.encode(signUpRequestDto.getPassword()));
-
-        Set<String> strRoles = signUpRequestDto.getRole();
-
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("ERROR : ROLE IS NOT FOUND"));
-
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
-        }
-
-        user.setRoles(roles);
-        userRepository.save(user);
+        authService.signUp(signUpRequestDto);
 
         return ResponseEntity.ok(new MessageResponseDto("USER REGISTERED SUCCESSFULLY!"));
 

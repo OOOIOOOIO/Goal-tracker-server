@@ -27,7 +27,7 @@ public interface DailyDatesRepository extends JpaRepository<DailyDates, Long> {
      * LocalDateTime은 왜 안될까...ㅠ
      */
 //    @Query(value = "select distinct dd.date from DailyDates dd join Daily d on dd.daily.dailyId = d.dailyId where dd.date like :month order by dd.date", nativeQuery = true)
-    @Query(value = "select distinct dd.dates from daily_dates dd join daily d on dd.daily_id = d.daily_id where dd.dates like :month and d.user_id = :user_id order by dd.dates", nativeQuery = true)
+    @Query(value = "select distinct dd.dates from daily_dates dd join daily d using dd.daily_id = d.daily_id where dd.dates like :month and d.user_id = :user_id order by dd.dates", nativeQuery = true)
     List<String> findDatesByMonth(@Param("month") String month, @Param("user_id") Long user_id);
 
 }

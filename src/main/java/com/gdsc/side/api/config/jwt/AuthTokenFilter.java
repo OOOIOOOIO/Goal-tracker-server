@@ -36,8 +36,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-
-
             // request : 헤더에서 넘어오는 JWT
             String jwt = parseJwt(request);
 
