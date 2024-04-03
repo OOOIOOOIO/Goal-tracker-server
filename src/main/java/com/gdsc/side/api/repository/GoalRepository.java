@@ -24,7 +24,9 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
      */
     List<Goal> findByUser_UserIdAndGoalStatus(Long userId, GoalStatus goalStatus);
 
-    @Query(value = "select g.goal_id, g.title, g.goal_status, g.created_at, g.end_date, g.alert_time, g.alert_status from goal g where g.end_date >= :today and g.user_id = :user_id", nativeQuery = true)
+    @Query(value = "select g.goal_id, g.title, g.goal_status, g.created_at, g.end_date, g.alert_time, g.alert_status " +
+            "from goal g " +
+            "where g.end_date >= :today and g.user_id = :user_id", nativeQuery = true)
     List<GoalMainResponseInterface> findGoalByDate(@Param("today")LocalDate today, @Param("user_id") Long user_id);
 
 }
